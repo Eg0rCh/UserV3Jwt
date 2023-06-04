@@ -4,6 +4,10 @@ spring:
     username: postgres
     password: MMspi3KB>H
     driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:liquibase/db.changelog.yaml
+    enabled: true
+    default-schema: public
   jpa:
     hibernate:
       ddl-auto: update

@@ -1,6 +1,8 @@
 package com.example.userv3jwt.auth;
 
 import com.example.userv3jwt.config.JwtService;
+import com.example.userv3jwt.dto.UserDto;
+import com.example.userv3jwt.mapper.UserMapper;
 import com.example.userv3jwt.token.Token;
 import com.example.userv3jwt.token.TokenRepository;
 import com.example.userv3jwt.token.TokenType;
@@ -21,6 +23,8 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
+    private final UserMapper userMapper;
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
@@ -28,13 +32,14 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
+        var userDto = UserDto.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
+        var user = userMapper.toEntity(userDto);
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
