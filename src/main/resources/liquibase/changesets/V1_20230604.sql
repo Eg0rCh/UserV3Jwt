@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS _user (
+CREATE TABLE IF NOT EXISTS client (
                        id SERIAL PRIMARY KEY,
                        firstname VARCHAR(255) ,
                        lastname VARCHAR(255) ,
@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS token (
                        tokenType VARCHAR(255) ,
                        revoked BOOLEAN DEFAULT false,
                        expired BOOLEAN DEFAULT false,
-                       user_id INT NOT NULL REFERENCES _user(id)
+                       user_id INT NOT NULL REFERENCES client(id)
 );
